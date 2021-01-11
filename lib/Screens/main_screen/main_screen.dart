@@ -1,7 +1,11 @@
+import 'dart:collection';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:home_in_the_hand/Screens/welcome_screen/welcome_screen.dart';
 import 'package:home_in_the_hand/constant.dart';
+import 'package:home_in_the_hand/model/user.dart';
 import 'package:home_in_the_hand/widgets/myheader.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -12,23 +16,41 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final controller = ScrollController();
+  dynamic usu;
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  Map<String, dynamic> datos;
   double offset = 0;
   bool isLoading = false;
-  String nombre = "Jorge Arturo";
+  String nombre = "";
   String email = "";
+  String id = "";
 
   @override
   void initState() {
     super.initState();
     final User user = auth.currentUser;
-    final uid = user.uid;
-    print('##############################################');
-    print(user);
-    print(uid);
+    final databaseReference =
+        FirebaseDatabase.instance.reference().child('usuario');
+    String nombre2 = "";
     email = user.email;
+    databaseReference
+        .orderByChild('email')
+        .equalTo(email)
+        .once()
+        .then((DataSnapshot snapshot) {
+      datos = Map.from(snapshot.value);
+      nombre2 = datos.values.first['nombre'];
+      nombre2 += " " + datos.values.first['apellido'];
+      _MainScreenInit(nombre2);
+    });
+
     isLoading = true;
     controller.addListener(onScroll);
+  }
+
+  _MainScreenInit(String name) {
+    nombre = name;
   }
 
   @override

@@ -1,13 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_in_the_hand/Screens/home_screen/home_screen.dart';
 import 'package:home_in_the_hand/Screens/welcome_screen/login_screen.dart';
+import 'package:home_in_the_hand/model/user.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignUpScreen extends StatelessWidget {
+  final Usuario usuario;
+
+  SignUpScreen({Key key, this.usuario}) : super(key: key);
+
+  String _nombre = '';
+  String _apellido = '';
   String _email = '';
   String _password = '';
+
+  final usuarioRef = FirebaseDatabase.instance.reference().child('usuario');
 
   @override
   @override
@@ -96,6 +106,18 @@ class SignUpScreen extends StatelessWidget {
                               .instance
                               .createUserWithEmailAndPassword(
                                   email: _email, password: _password);
+
+                          /*TODO: Zona de prueba: */
+                          usuarioRef.push().set(
+                            {
+                              'id': _email,
+                              'nombre': _nombre,
+                              'apellido': _apellido,
+                              'email': _email,
+                            },
+                          );
+                          /**/
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -199,10 +221,18 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
           onChanged: (value) {
-            if (label == "Email") {
-              _email = value;
+            if (label == "Nombre(s)") {
+              _nombre = value;
             } else {
-              _password = value;
+              if (label == "Apellidos") {
+                _apellido = value;
+              } else {
+                if (label == "Email") {
+                  _email = value;
+                } else {
+                  _password = value;
+                }
+              }
             }
           },
         ),

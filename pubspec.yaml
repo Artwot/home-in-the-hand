@@ -54,6 +54,8 @@ dependencies:
   rflutter_alert: ^1.1.0
   #Abrir otra app desde Futter: 
   device_apps: ^1.2.0
+  #Ícono de la app: 
+  flutter_launcher_icons: ^0.8.1
 
 dev_dependencies:
   flutter_test:
@@ -101,3 +103,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_icons:
+  image_path: 'assets/images/logo.jpeg'
+  android: true
+  ios: true
