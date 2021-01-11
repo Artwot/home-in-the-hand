@@ -1,7 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:home_in_the_hand/Screens/home_screen/home_screen.dart';
+import 'package:home_in_the_hand/Screens/welcome_screen/signup.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class LoginScreen extends StatelessWidget {
+  static int usuario;
+  String _email = '';
+  String _password = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,13 +88,35 @@ class LoginScreen extends StatelessWidget {
                       child: MaterialButton(
                         minWidth: double.infinity,
                         height: 60,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
+                        onPressed: () async {
+                          print("Este es el valor del EMAIL: " + _email);
+                          print("Este es el valor de la CONTRASEÑA: " +
+                              _password);
+                          try {
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .signInWithEmailAndPassword(
+                                    email: _email, password: _password);
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(),
+                              ),
+                            );
+                            _email = "";
+                            _password = "";
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              print('NO SE ENCONTRÓ UN USUARIO CON ESE EMAIL.');
+                              handleLoginOutPopup(context,
+                                  "No se encontró el email proporcionado.");
+                            } else if (e.code == 'wrong-password') {
+                              print('CONTRASEÑA ERRÓNEA.');
+                              handleLoginOutPopup(
+                                  context, "Favor de verificar la contraseña.");
+                            }
+                          }
                         },
                         color: Colors.greenAccent,
                         elevation: 0.0,
@@ -95,7 +124,7 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(50.0),
                         ),
                         child: Text(
-                          "Iniciar Sesión",
+                          "Iniciar sesión",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18.0,
@@ -111,11 +140,21 @@ class LoginScreen extends StatelessWidget {
                         "¿Aún no tienes una cuenta? ",
                         style: TextStyle(fontSize: 10.0),
                       ),
-                      Text(
-                        "Regístrese",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 10.0,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignUpScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Regístrese",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10.0,
+                          ),
                         ),
                       ),
                     ],
@@ -170,11 +209,37 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
           ),
+          onChanged: (value) {
+            if (label == "Email") {
+              _email = value;
+            } else {
+              _password = value;
+            }
+          },
         ),
         SizedBox(
           height: 30.0,
         ),
       ],
     );
+  }
+
+  handleLoginOutPopup(context, desc) {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "¡Atención!",
+      desc: desc,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Ok",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.teal,
+        ),
+      ],
+    ).show();
   }
 }

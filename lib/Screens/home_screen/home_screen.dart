@@ -1,6 +1,8 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:home_in_the_hand/Screens/main_screen/dashboard.dart';
 import 'package:home_in_the_hand/Screens/main_screen/main_screen.dart';
+import 'package:home_in_the_hand/Screens/simulation_screen/simulation_screen.dart';
 import 'package:home_in_the_hand/Screens/tips_screen/tips_screen.dart';
 import 'package:home_in_the_hand/constant.dart';
 
@@ -17,13 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: MainScreen(),
     ),
     Container(
-      color: Colors.greenAccent
+      child: Dashboard(),
     ),
     Container(
       child: TipsScreen(),
     ),
     Container(
-      color: Colors.blue[300],
+      child: SimulationScreen(),
     ),
   ];
 
@@ -45,8 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
             inactiveColor: Colors.black,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Cuenta'),
+            icon: Icon(Icons.wb_sunny),
+            title: Text('Temp'),
             activeColor: kPrimaryColor,
             inactiveColor: Colors.black,
           ),

@@ -1,7 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:home_in_the_hand/Screens/home_screen/home_screen.dart';
+import 'package:home_in_the_hand/Screens/welcome_screen/login_screen.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignUpScreen extends StatelessWidget {
+  String _email = '';
+  String _password = '';
+
   @override
   @override
   Widget build(BuildContext context) {
@@ -80,7 +87,36 @@ class SignUpScreen extends StatelessWidget {
                     child: MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
-                      onPressed: () {},
+                      onPressed: () async {
+                        print("Este es el valor del EMAIL: " + _email);
+                        print(
+                            "Este es el valor de la CONTRASEÑA: " + _password);
+                        try {
+                          UserCredential userCredential = await FirebaseAuth
+                              .instance
+                              .createUserWithEmailAndPassword(
+                                  email: _email, password: _password);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeScreen(),
+                            ),
+                          );
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'weak-password') {
+                            print('The password provided is too weak.');
+                            handleLoginOutPopup(context,
+                                "La contraseña debe tener al menos 6 caracteres.");
+                          } else if (e.code == 'email-already-in-use') {
+                            print(
+                                'Ya existe una cuenta registrada con este email.');
+                            handleLoginOutPopup(context,
+                                "Ya existe una cuenta registrada con este email.");
+                          }
+                        } catch (e) {
+                          print("UPS!");
+                        }
+                      },
                       color: Colors.greenAccent,
                       elevation: 0.0,
                       shape: RoundedRectangleBorder(
@@ -102,11 +138,21 @@ class SignUpScreen extends StatelessWidget {
                         "¿Ya tiene una cuenta? ",
                         style: TextStyle(fontSize: 13.0),
                       ),
-                      Text(
-                        "Inicie sesión",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 13.0,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Inicie sesión",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13.0,
+                          ),
                         ),
                       ),
                     ],
@@ -152,11 +198,37 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
           ),
+          onChanged: (value) {
+            if (label == "Email") {
+              _email = value;
+            } else {
+              _password = value;
+            }
+          },
         ),
         SizedBox(
           height: 30.0,
         ),
       ],
     );
+  }
+
+  handleLoginOutPopup(context, desc) {
+    Alert(
+      context: context,
+      type: AlertType.info,
+      title: "¡Atención!",
+      desc: desc,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Ok",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.teal,
+        ),
+      ],
+    ).show();
   }
 }
