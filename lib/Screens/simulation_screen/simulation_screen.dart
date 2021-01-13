@@ -62,7 +62,7 @@ class SimulationScreen extends StatelessWidget {
                 height: 60,
                 onPressed: () {
                   print("Presionaste el botón");
-                  DeviceApps.openApp('com.DefaultCompany.Video1');
+                  DeviceApps.openApp('com.DefaultCompany.home_in_the_hand');
                 },
                 color: Colors.greenAccent,
                 elevation: 0.0,

@@ -159,6 +159,81 @@ class _MainScreenState extends State<MainScreen> {
                         bottom: 10.0,
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.wb_sunny,
+                          color: Color(0xFFe63946),
+                          size: 25.0,
+                        ),
+                        Text(
+                          " Vea la temperatura y humedad de su habitación.",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1d3557),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 10.0,
+                        bottom: 10.0,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.book,
+                          color: Color(0xFFe63946),
+                          size: 25.0,
+                        ),
+                        Text(
+                          " Recomendaciones contra la humedad.                  ",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1d3557),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 10.0,
+                        bottom: 10.0,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.phone_android,
+                          color: Color(0xFFe63946),
+                          size: 25.0,
+                        ),
+                        Text(
+                          " Abrir aplicación de realidad virtual.                        ",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1d3557),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 10.0,
+                        bottom: 10.0,
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40.0),
                       child: Container(
@@ -194,6 +269,52 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 60.0,
+                        bottom: 60.0,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "CRÉDITOS",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1d3557),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 10.0,
+                        bottom: 10.0,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Aplicación realizada por alumnos\n" +
+                              "del Instituto Tecnológico de Toluca\n" +
+                              "Programación Avanzada de Dispositivos\n" +
+                              "Móviles\n" +
+                              "-Martínez Ruíz Ana María.\n" +
+                              "-Mercado Rojas María del Carmen.\n" +
+                              "-Sarabia Ramírez Jorge Arturo\n",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1d3557),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -221,7 +342,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         DialogButton(
           child: Text(
-            "Yes",
+            "Sí",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () => Navigator.push(
